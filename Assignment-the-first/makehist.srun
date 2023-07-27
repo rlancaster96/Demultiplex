@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#SBATCH --partition=compute
+#SBATCH --job-name=disthists
+#SBATCH --cpus-per-task=4
+#SBATCH --nodes=1
+#SBATCH --account=bgmp
+#SBATCH --mem=16G
+
+conda activate bgmp_py311
+
+f1="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz" 
+f2="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz"
+f3="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz"
+f4="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz"
+
+/usr/bin/time -v ./qscore_dist.py -f $f1 -l 101 -o R1_hist > R1_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f2 -l 8 -o R2_hist > R2_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f3 -l 8 -o R3_hist > R3_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f4 -l 101 -o R4_hist > R4_hist.tsv
