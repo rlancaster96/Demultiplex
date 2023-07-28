@@ -29,6 +29,7 @@ Sequence runs come in 4 files: the first read (R1), the first index (R2), the se
 The outputs are FASTQ files. The headers for the records should have the index pair appended to them (in the format of "index1"-"reverse compliment of index2" for ease of reading). There is one FASTQ file per index per read.  
 
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [>=6 expected output FASTQ files](../TEST-output_FASTQ).
+
 4. Pseudocode: 
 ```
 make dict of indexes and their reverse compliments 
