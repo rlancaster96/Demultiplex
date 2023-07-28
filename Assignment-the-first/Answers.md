@@ -13,12 +13,31 @@ https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qsc
 | 1294_S1_L008_R4_001.fastq.gz | read 2 | 101 | Phred +33 |
 
 2. Per-base NT distribution
-    1. Use markdown to insert your 4 histograms here.
-    2. I would use a quality score cutoff of 33 (binned 30-34) for my indexes and my biological reads both. The lowest mean quality score per base was between 30 and 32 for both the indexes and my biological reads. 
-    3. 3976613 in R2, and 3328051 for R3. A total of 7304664. 
-    ```
-    zcat <filename> | sed -n '2~4p' | grep -E "[N]+" | wc -l 
-    ```
+
+   i. Histograms:
+
+**Read 1**
+
+![R1_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/3b5b562c-aeaa-46fe-a4e6-efe4d40b6abe)
+
+**Index 1**
+
+![R2_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/27f0b88a-d385-4c18-9adc-341f4d9cef98)
+
+**Index 2**
+
+![R3_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/74208601-1ee0-48d6-90ae-22d3ee763075)
+
+**Read 2**
+
+![R4_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/0a276774-3a3e-435f-b8e6-3ce6b3e3371e)
+
+ii. I would use a quality score cutoff of 33 (binned 30-34) for my indexes and a cutoff of 27 (binned 25-29) my biological reads. The lowest mean quality score per base was between 30 and 32 for both the indexes and my biological reads. I want to include at least the mean quality or better for all reads, but I want to have a stricter quality filter for indexes since I want to avoid index-swapping issues. These issues have worse ramifications for downstream analysis (including unrelated genomic data in my analysis) than for a few bad-quality nucleotides in a bioread. 
+
+iii. 3976613 in R2, and 3328051 for R3. A total of 7304664. 
+	    ```
+	    zcat <filename> | sed -n '2~4p' | grep -E "[N]+" | wc -l 
+	    ```
 
 ## Part 2
 1. Define the problem
