@@ -3,6 +3,8 @@
 ## Part 1
 1. Be sure to upload your Python script. Provide a link to it here:
 
+https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qscore_dist.py
+
 | File name | label | Read length | Phred encoding |
 |---|---|---|---|
 | 1294_S1_L008_R1_001.fastq.gz | read 1 | 101 | Phred +33 |
@@ -21,8 +23,8 @@
 ## Part 2
 1. Define the problem
 
-This library was prepared with dual paired indexes. I need to de-multiplex our sequence files and determine the amount of sequence hopping. We have to filter sequencing data for quality, separating out passing paired indexes from indexes that are too low quality, don't match the expected indexes, or have hopped/swapped.
-Sequence runs come in 4 files: the first read (R1), the first index (R2), the second index (R3), and the second read (R4). I have to parse these four files at the same time to compare the first and second indices - if one index is the reverse compliment of the other, matches an index in the provided index list, and is of sufficient quality (doesn't contain "N"s), then it is a passing index pair and read1/read2 can be written to my passing files for that specific index pair. Indexes that are hopped go into their own read1/read2 files, and those not present in the provided index list or are of insufficient quality also go into the read1/read2 unknown/low qual files.
+This library was prepared with dual paired indexes. I need to de-multiplex our sequence files and determine the amount of index hopping. We have to filter sequencing data for quality, separating out passing paired indexes from indexes that are too low quality, don't match the expected indexes, or have hopped/swapped.
+Sequence runs come in 4 files: the first read (R1), the first index (R2), the second index (R3), and the second read (R4). I have to parse these four files at the same time to compare the first and second indices - if one index is the reverse compliment of the other, matches an index in the provided index list, and is of sufficient quality (doesn't contain "N"s), then it is a passing index pair and read1/read2 can be written to my passing files for that specific index pair. Indexes that are hopped go into their own read1/read2 files, and those not present in the provided index list or are of insufficient quality also go into the read1/read2 low quality files.
 
 2. Describe output
 
@@ -71,7 +73,7 @@ Output: CAGT
 
 ```
 def index_dict(indexlist: list) -> dict: 
-'''Takes a list of indexes and returns a dictionary of key = index and value = reverse compliment of index'''
+'''Takes a list of indexes and returns a dictionary of key = "index" and value = "reverse compliment of index"'''
 return index_dict
 Input: [ACTG, AAAA, TTTT, CCCC]
 Output: {ACTG : CAGT, AAAA : TTTT, TTTT : AAAA, CCCC : GGGG}
