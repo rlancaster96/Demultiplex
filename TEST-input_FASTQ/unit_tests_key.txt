@@ -1,0 +1,11 @@
+1: Good, index pair 1
+2: Low quality (N, # score)
+3. Hopped indexes
+4. Unknown indexes
+5. Good, index pair 2
+
+Index 1: 
+ATCG / CGAT
+
+Index 2:
+GGGG / CCCC
