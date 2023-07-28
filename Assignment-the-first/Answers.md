@@ -43,7 +43,7 @@ index 2 = reverse compliment of R3 index
 append index1-index2 to headers 
 
 begin quality filtering: 
-if index1 doesnt match to dictionary key OR index2 doesn't match to dictionary value: 
+if index1 doesnt match to dictionary key (known index) OR index2 doesn't match to dictionary value (reverse compliment of known index): 
 	write modified header and rest of record to the R1 and R2 lowquality files
 elif index1 == index2:
 	write modified header and rest of record to the R1 and R2 passing files for the specific index
@@ -57,3 +57,21 @@ else:
     2. Function headers (name and parameters)
     3. Test examples for individual functions
     4. Return statement
+
+I have two high-level functions I'm planning on using. 
+
+```
+def rev_comp(nucleotides: string) -> string: 
+'''Takes a nucleotide string and returns the reverse compliment of that nucleotide string'''
+return reversecompliment
+Input: ACTG
+Output: CAGT
+```
+
+```
+def index_dict(indexlist: list) -> dict: 
+'''Takes a list of indexes and returns a dictionary of key = index and value = reverse compliment of index'''
+return index_dict
+Input: [ACTG, AAAA, TTTT, CCCC]
+Output: {ACTG : CAGT, AAAA : TTTT, TTTT : AAAA, CCCC : GGGG}
+```
