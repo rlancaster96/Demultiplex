@@ -47,7 +47,15 @@ Sequence runs come in 4 files: the first read (R1), the first index (R2), the se
 
 2. Describe output
 
-The outputs are FASTQ files. The headers for the records should have the index pair appended to them (in the format of "index1"-"reverse compliment of index2" for ease of reading). There is one FASTQ file per index per read.  
+The outputs are FASTQ files. The headers for the records should have the index pair appended to them (in the format of "index1"-"reverse compliment of index2" for ease of reading). There is one FASTQ file per index per read for correctly paired indexes that pass the quality filter. Swapped indexes will be appended to either the read 1 swapped or read 2 swapped file, and low quality indexes will be appeneded to either the read 1 low-q or read 2 low-q files. The total number of outputs given example indexes *n* and *x* will be:
+- read 1 index *n*
+- read 2 index *n*
+- read 1 index *x*
+- read 2 index *x*
+- read 1 - all swapped
+- read 2 - all swapped
+- read 1 - all low-quality
+- read 2 - all low-quality 
 
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [>=6 expected output FASTQ files](../TEST-output_FASTQ).
 
