@@ -32,7 +32,7 @@ https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qsc
 
 ![R4_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/0a276774-3a3e-435f-b8e6-3ce6b3e3371e)
 
-ii. I would use a quality score cutoff of 33 (binned 30-34) for my indexes and a cutoff of 27 (binned 25-29) my biological reads. The lowest mean quality score per base was between 30 and 32 for both the indexes and my biological reads. I want to include at least the mean quality or better for all reads, but I want to have a stricter quality filter for indexes since I want to avoid index-swapping issues. These issues have worse ramifications for downstream analysis (including unrelated genomic data in my analysis) than for a few bad-quality nucleotides in a bioread. 
+ii. I would use a quality score cutoff of 33 (binned 30-34) for my indexes and a cutoff of 27 (binned 25-29) my biological reads. The lowest mean quality score per base was between 30 and 32 for both the indexes and my biological reads. I want to include at least the mean quality or better for my biological reads (so, 27), but I want to have a stricter quality filter for indexes since I want to avoid index-swapping issues. These issues have worse ramifications for downstream analysis (including unrelated genomic data in my analysis) than for a few bad-quality nucleotides in a bioread. 
 
 iii. 3976613 in R2, and 3328051 for R3. A total of 7304664. 
 	    ```
