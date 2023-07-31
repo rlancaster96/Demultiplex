@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument("-l", "--readlen", help="Specify the read length", required=True, type=int)
     parser.add_argument("-f", "--filename", help="Specify the file name", required=True, type=str)
     parser.add_argument("-o", "--writename", help="Specify output file name", required=False, type=str)
-    
+    parser.add_argument("-r", "--readname", help="Specify name of read for plotting", required=False, type=str)
     return parser.parse_args()
 
 args = get_args()
@@ -59,7 +59,7 @@ for i in range (len(my_list)):
 
 #plot hist
 plt.plot(my_list)
-plt.title("Average Quality Score per Base Pair Position in the Read")
+plt.title(f"Average Quality Score per Base Pair Position in {args.readname}")
 plt.xlabel("Base Pair #")
 plt.ylabel("Average Quality Score")
 plt.savefig(f"{args.writename}.png")

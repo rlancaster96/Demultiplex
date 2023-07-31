@@ -14,7 +14,7 @@ f2="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz"
 f3="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz"
 f4="/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz"
 
-/usr/bin/time -v ./qscore_dist.py -f $f1 -l 101 -o R1_hist > R1_dist.tsv
-/usr/bin/time -v ./qscore_dist.py -f $f2 -l 8 -o R2_hist > R2_dist.tsv
-/usr/bin/time -v ./qscore_dist.py -f $f3 -l 8 -o R3_hist > R3_dist.tsv
-/usr/bin/time -v ./qscore_dist.py -f $f4 -l 101 -o R4_hist > R4_hist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f1 -l 101 -o R1_hist -r R1 > R1_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f2 -l 8 -o R2_hist -r R2 > R2_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f3 -l 8 -o R3_hist -r R3 > R3_dist.tsv
+/usr/bin/time -v ./qscore_dist.py -f $f4 -l 101 -o R4_hist -r R4 > R4_dist.tsv
