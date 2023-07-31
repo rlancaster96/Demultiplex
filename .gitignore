@@ -116,5 +116,8 @@ ENV/
 # mypy
 .mypy_cache/
 
+#zone identifier files 
+*Zone.Identifier
+
 # personal notes
 Assignment-the-first/pseudocode.txt
