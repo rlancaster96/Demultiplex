@@ -94,7 +94,7 @@ return values for unknown, matching, and hopped indexes
     3. Test examples for individual functions
     4. Return statement
 
-I have four high-level functions I'm planning on using. Two are new and two are already in my bioinfo.py module.
+I have three high-level functions I'm planning on using. Two are new and one is already in my bioinfo.py module.
 
 ```
 def rev_comp(nucleotides: string) -> string: 
