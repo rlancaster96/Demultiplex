@@ -16,6 +16,7 @@ https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qsc
 
    i. Histograms:
 
+
    
 ![R1_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/82f72a0a-cfb2-4edf-83ee-23431fa43d51)
 
