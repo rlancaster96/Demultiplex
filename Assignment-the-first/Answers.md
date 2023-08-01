@@ -15,6 +15,8 @@ https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qsc
 2. Per-base NT distribution
 
    i. Histograms:
+
+   
 ![R1_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/82f72a0a-cfb2-4edf-83ee-23431fa43d51)
 
 ![R2_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/df00c274-20ef-4ea5-9c7c-b78ce9d89b84)
@@ -22,6 +24,7 @@ https://github.com/rlancaster96/Demultiplex/blob/master/Assignment-the-first/qsc
 ![R3_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/6b12e9ae-ecd2-41cf-ad2d-684199663e7b)
 
 ![R4_hist](https://github.com/rlancaster96/Demultiplex/assets/136844363/6b4cf3ee-3a66-4e9a-8b88-f36f6e745e94)
+
 
 
 ii. I am basing my cutoffs on the means we just calculated. I would use a quality score cutoff of 33 (binned 30-34) for *any single base pair position* for my indexes and a cutoff of 27 (binned 25-29) for the *mean quality score across the read* of my biological reads (since they haven't yet been trimmed, I'd go a little lower than 33). The lowest mean quality score per base was between 30 and 32 for both the indexes and my biological reads. However, I want to have a stricter quality filter for indexes since I want to avoid index-swapping issues. These issues have worse ramifications for downstream analysis (including unrelated genomic data in my analysis) than for a few bad-quality nucleotides in a bioread. 
