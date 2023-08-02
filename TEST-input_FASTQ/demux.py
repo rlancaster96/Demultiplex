@@ -39,6 +39,16 @@ for a in index_names:
     indexcounters[index_names[a]]=0
 totalsamples = 0 #initialize counter for total samples encountered
 
+#make dictionary for counting how many times we encounter a PAIR of indexes (overall index swapping)
+iterlist = []
+for a in index_names:
+    iterlist.append(index_names[a])
+combos = list(itertools.combinations_with_replacement(iterlist,2))
+
+paircounters: dict = {}
+for a in combos:
+    paircounters[a] = 0
+
 # open read files 
 read1 = open(args.read1, "r")
 read2 = open(args.read2, "r")
@@ -147,6 +157,8 @@ while True:
     #*************************************
     #write to paired indexes file if indexes match 
     elif ind1 == rcind2:
+        temptuple = (ind1, rcind2)
+        paircounters[temptuple] +=1 
         matching +=1
         indexcounters[ind1] += 1
         totalsamples +=1
@@ -159,6 +171,8 @@ while True:
     #*************************************
     else:
         hopped +=1
+        temptuple = (ind1, rcind2)
+        paircounters[temptuple] +=1 
         R1_hopped.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
         R4_hopped.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
 
@@ -168,10 +182,6 @@ for handle in handles:
 
 # Markdown output file
 #*********************
-
-
-
-
 
 with open("Demux_Summary.md", "w") as wh:
     wh.write(f"Demultiplexing Summary\n")
@@ -183,3 +193,6 @@ with open("Demux_Summary.md", "w") as wh:
         percent = ((indexcounters[a])/totalsamples)*100
         wh.write(f"{a}\t{percent}\n")
     wh.write(f"\nOverall amount of index swapping\n")
+    wh.write(f"Pair combination\tFrequency\n")
+    for a in paircounters:
+        wh.write(f"{a}\t{paircounters[a]}\n")
