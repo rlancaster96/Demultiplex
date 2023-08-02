@@ -5,6 +5,7 @@ import itertools
 import bioinfo
 import gzip
 import argparse
+import itertools
 
 #set up argparse 
 def get_args():
@@ -61,7 +62,12 @@ for index in index_names:
     handles.append(filehandle2)
 
     pack: tuple = (filehandle1, filehandle2) #add key = index, filehandles1 and 2 = values for each index. use this for writing paired indexes later.
-    indexhandledict[index] = pack
+    indexhandledict[index_names.get(index)] = pack
+
+#initialize counters for matching, hopped, and unknown indexes
+matching = 0
+hopped = 0
+unknown = 0
 
 #start looping through files
 while True: 
@@ -119,6 +125,7 @@ while True:
             lowscore2 = qscore2
     # write to unknown file if it doesn't make the cutoff
     if lowscore1 < args.cutoff or lowscore2 < args.cutoff: 
+        unknown +=1
         R1_unknown.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
         R4_unknown.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
     
@@ -126,24 +133,33 @@ while True:
     #*************************************
     #write to unknown file if index1 or rev comp of index 2 is not a key in the rcindex dictionary:
     elif ind1 not in rcindex or rcind2 not in rcindex:
+        unknown +=1
         R1_unknown.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
         R4_unknown.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
     
     #3 : PAIRED INDEXES
     #*************************************
     #write to paired indexes file if indexes match 
-    # elif ind1 == rcind2:
+    elif ind1 == rcind2:
+        matching +=1
+        #get filehandles tuple
+        fh1, fh2 = indexhandledict[ind1]
+        fh1.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
+        fh2.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
 
-
-
-
-
-        
-
-
-
-
+    #4 : HOPPED FILES
+    #*************************************
+    else:
+        hopped +=1
+        R1_hopped.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
+        R4_hopped.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
 
 #close files
 for handle in handles:
     handle.close()
+
+
+with open("Demux_Summary.md", "w") as wh:
+    wh.write(f"Demultiplexing Summary\n\n")
+    wh.write(f"Hopped: {hopped}\nMatching: {matching}\nUnknown: {unknown}")
+    wh.write(f"\n\nPercent of reads from each sample")
