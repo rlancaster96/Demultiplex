@@ -33,6 +33,12 @@ args = get_args()
 index_names: dict = {"A1":"ATCG", "B2":"GGGG"}
 rcindex: dict = bioinfo.makedict(index_names)
 
+#make dictionary for counting how many times we encounter an index (for percent of samples)
+indexcounters: dict = {}
+for a in index_names:
+    indexcounters[index_names[a]]=0
+totalsamples = 0 #initialize counter for total samples encountered
+
 # open read files 
 read1 = open(args.read1, "r")
 read2 = open(args.read2, "r")
@@ -142,6 +148,8 @@ while True:
     #write to paired indexes file if indexes match 
     elif ind1 == rcind2:
         matching +=1
+        indexcounters[ind1] += 1
+        totalsamples +=1
         #get filehandles tuple
         fh1, fh2 = indexhandledict[ind1]
         fh1.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
@@ -158,8 +166,20 @@ while True:
 for handle in handles:
     handle.close()
 
+# Markdown output file
+#*********************
+
+
+
+
 
 with open("Demux_Summary.md", "w") as wh:
-    wh.write(f"Demultiplexing Summary\n\n")
+    wh.write(f"Demultiplexing Summary\n")
     wh.write(f"Hopped: {hopped}\nMatching: {matching}\nUnknown: {unknown}")
-    wh.write(f"\n\nPercent of reads from each sample")
+    wh.write(f"\n\nPercent of reads from each sample\n")
+    wh.write(f"Read index\tPercent\n")
+    #Calculate percent of reads from each sample:
+    for a in indexcounters:
+        percent = ((indexcounters[a])/totalsamples)*100
+        wh.write(f"{a}\t{percent}\n")
+    wh.write(f"\nOverall amount of index swapping\n")
