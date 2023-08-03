@@ -7,6 +7,7 @@ import gzip
 import argparse
 import itertools
 
+
 #set up argparse 
 def get_args():
     parser = argparse.ArgumentParser(description="Demultiplexes samples")
@@ -15,23 +16,29 @@ def get_args():
     parser.add_argument("-R2", "--index1", help="Specify the file name for index 1", required=True, type=str)
     parser.add_argument("-R3", "--index2", help="Specify the file name for index 2", required=True, type=str)
     parser.add_argument("-R4", "--read2", help="Specify the file name for read 2", required=True, type=str)
+    parser.add_argument("-i", "--indfile", help="Specify the file containing indexes", required=True, type=str)
     parser.add_argument("-c", "--cutoff", help="Specify quality cutoff for indexes", required=False, type=int)
     return parser.parse_args()
 
 args = get_args()
 
-#Make dictionaries: one containing names and indexes, and one containing reverse compliment of indexes
-# index_names: dict = {"B1":"GTAGCGTA", "A5":"CGATCGAT", "C1":"GATCAAGG",
-# "B9":"AACAGCGA", "C9":"TAGCCATG", "C3":"CGGTAATC", 
-# "B3":"CTCTGGAT", "C4":"TACCGGAT", "A11":"CTAGCTCA",
-# "C7":"CACTTCAC", "B2":"GCTACTCT", "A1":"ACGATCAG",
-# "B7":"TATGGCAC", "A3":"TGTTCCGT", "B4":"GTCCTAAG",
-# "A12":"TCGACAAG", "C10":"TCTTCGAC", "A2":"ATCATGCG",
-# "C2":"ATCGTGGT", "A10":"TCGAGAGT", "B8":"TCGGATTC",
-# "A7":"GATCTTGC", "B10":"AGAGTCCA", "A8":"AGGATAGC"}
+#read indexes file, make dictionary of that data 
+indexfiledict: dict = {}
 
-index_names: dict = {"A1":"ATCG", "B2":"GGGG"}
-rcindex: dict = bioinfo.makedict(index_names)
+with open(args.indfile, "r") as fh:
+    fh.readline() #read the header line first to not include it
+    for line in fh: #then for every other line
+        line = line.strip()
+        line = line.split()
+        indexfiledict[line[4]] = line #make the indexfiledict: key is index seq, value is all data on line in a list
+
+#Make dictionaries: one containing names and indexes, and one containing reverse compliment of indexes
+index_names: dict = {}
+for a in indexfiledict:
+    index_names[indexfiledict.get(a)[0]] = indexfiledict.get(a)[4] #make a dictionary with sample : index
+
+# index_names: dict = {"A1":"ATCG", "B2":"GGGG"} #unit test
+rcindex: dict = bioinfo.makedict(index_names) #Takes a dictionary with index strings as values and returns a new dictionary with keys = index string, values = reverse compliment of index string.
 
 #make dictionary for counting how many times we encounter an index (for percent of samples)
 indexcounters: dict = {}
@@ -43,11 +50,13 @@ totalsamples = 0 #initialize counter for total samples encountered
 iterlist = []
 for a in index_names:
     iterlist.append(index_names[a])
-combos = list(itertools.combinations_with_replacement(iterlist,2))
+combos = list(itertools.product(iterlist, repeat=2))
 
 paircounters: dict = {}
 for a in combos:
     paircounters[a] = 0
+
+
 
 # open read files 
 read1 = open(args.read1, "r")
@@ -55,7 +64,7 @@ read2 = open(args.read2, "r")
 index1 = open(args.index1, "r")
 index2 = open(args.index2, "r")
 
-# open write files
+# open the 4 static write files
 R1_hopped = open("R1_hopped.fastq", "w")
 R4_hopped = open("R4_hopped.fastq", "w")
 R1_unknown = open("R1_unknown.fastq", "w")
@@ -65,11 +74,11 @@ handles: list = [R1_hopped, R4_hopped, R1_unknown, R4_unknown] #make a list of a
 indexhandledict: dict = {}
 #make filehandles and dictionary of filehandles for paired indexes where key = index, value = filehandle
 for index in index_names:
-    filehandle1 = "fh_R1_" + index
-    filename1 = "R1_index_" + index + ".fastq"
+    filehandle1 = "fh_R1_" + index_names[index]
+    filename1 = "R1_index_" + index_names[index] + ".fastq"
     
-    filehandle2 = "fh_R4_" + index
-    filename2 = "R4_index_" + index + ".fastq"
+    filehandle2 = "fh_R4_" + index_names[index]
+    filename2 = "R4_index_" + index_names[index] + ".fastq"
     
     filehandle1 = open(filename1, "w")
     filehandle2 = open(filename2, "w")
@@ -158,9 +167,9 @@ while True:
     #write to paired indexes file if indexes match 
     elif ind1 == rcind2:
         temptuple = (ind1, rcind2)
-        paircounters[temptuple] +=1 
-        matching +=1
-        indexcounters[ind1] += 1
+        paircounters[temptuple] +=1 #add count of 1 to dictionary counting pairs
+        matching +=1 #add count of 1 to count of matched 
+        indexcounters[ind1] += 1 #add count of 1 to individual index counter
         totalsamples +=1
         #get filehandles tuple
         fh1, fh2 = indexhandledict[ind1]
@@ -172,9 +181,15 @@ while True:
     else:
         hopped +=1
         temptuple = (ind1, rcind2)
-        paircounters[temptuple] +=1 
+        try:
+            paircounters[temptuple] +=1 
+        except:
+            print(hopped, "NOT FOUND!",temptuple)
         R1_hopped.write(f"{read1_header}\n{read1_seq}{read1_comment}{read1_qscore}")
         R4_hopped.write(f"{read2_header}\n{read2_seq}{read2_comment}{read2_qscore}")
+file=open("LESLIE","w")
+for thing in paircounters:
+    print(thing, file=file)
 
 #close files
 for handle in handles:
@@ -183,16 +198,30 @@ for handle in handles:
 # Markdown output file
 #*********************
 
+#Calculate percent of reads from each sample:
+percentsample: dict = {} #make a dictionary with index=key, value = tuple(percent, sample#)
+for a in indexcounters:
+    percent = ((indexcounters[a])/totalsamples)*100
+    percentsample[a] = [percent, indexfiledict[a][0]]
+
 with open("Demux_Summary.md", "w") as wh:
     wh.write(f"Demultiplexing Summary\n")
     wh.write(f"Hopped: {hopped}\nMatching: {matching}\nUnknown: {unknown}")
     wh.write(f"\n\nPercent of reads from each sample\n")
-    wh.write(f"Read index\tPercent\n")
-    #Calculate percent of reads from each sample:
-    for a in indexcounters:
-        percent = ((indexcounters[a])/totalsamples)*100
-        wh.write(f"{a}\t{percent}\n")
+    wh.write(f"Sample\tRead index\tPercent\n")
+    for a in percentsample:
+        wh.write(f"{percentsample[a][1]}\t{a}\t{percentsample[a][0]}\n")
     wh.write(f"\nOverall amount of index swapping\n")
     wh.write(f"Pair combination\tFrequency\n")
     for a in paircounters:
         wh.write(f"{a}\t{paircounters[a]}\n")
+
+
+#testing delete later 
+# print(index_names)
+# print(indexcounters)
+# print(len(index_names))
+# print(len(indexcounters))
+
+# print(paircounters)
+# print(indexhandledict)
