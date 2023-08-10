@@ -9,11 +9,11 @@
 
 '''This module is a collection of useful bioinformatics functions written during the Bioinformatics and Genomics Program coursework.'''
 
-__version__ = "0.6"         # Read way more about versioning here:
+__version__ = "0.6.2"         # Read way more about versioning here:
                             # https://en.wikipedia.org/wiki/Software_versioning
 
-DNAbases = set("ATGCNatcgn")
-RNAbases = set("AUGCNaucgn")
+DNA_bases = set("ATGCNatcgn")
+RNA_bases = set("AUGCNaucgn")
 revdict = {"A":"T", "T":"A", "C":"G", "G":"C", "N":"N"}
 
 #1
@@ -50,7 +50,7 @@ def qual_score(phred_score: str) -> float:
 def validate_base_seq(seq,RNAflag=False):
     '''This function takes a string. Returns True if string is composed
     of only As, Ts (or Us if RNAflag), Gs, Cs. False otherwise. Case insensitive.'''
-    return set(seq)<=(RNAbases if RNAflag else DNAbases)
+    return set(seq)<=(RNA_bases if RNAflag else DNA_bases)
 
 #5
 def gc_content(DNA):
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     assert calc_median([0,1,2,3,4,5]) == 2.5, "Wrong median for even list [0,1,2,3,4,5]"
     assert calc_median([-1,-3,-5]) == -3, "Wrong median for list with negative numbers [-1,-3,-5]"
     assert calc_median([0,0,0,0,0,0]) == 0, "Wrong median for list of the same value"
-    print("Your calc_median function is working 1/6")
+    print("Your calc_median function is working 1/5")
 
 if __name__ == "__main__":
     #Tests for convert_phred (From Leslie)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     assert convert_phred("2") == 17, "wrong phred score for '2'"
     assert convert_phred("@") == 31, "wrong phred score for '@'"
     assert convert_phred("$") == 3, "wrong phred score for '$'"
-    print("Your convert_phred function is working 2/6")
+    print("Your convert_phred function is working 2/5")
 
 
 if __name__ == "__main__":
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     assert qual_score("@") == 31, "Your qual_score function does not convert phred scores correctly"
     assert qual_score("IIIIIIIIII") == 40, "Wrong average for string IIIIIIIIII"
     assert qual_score("$$$@@@") == 17, "Wrong average for string $$$@@@"
-    print("Your qual_score function is working 3/6")
+    print("Your qual_score function is working 3/5")
 
 if __name__ == "__main__":
     # Tests for validate_base_seq
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     assert validate_base_seq("ACTCTACTATCAP") == False, "validate_base_seq breaks for other letters"
     assert validate_base_seq("ACTCTANNNTAGTGA") == True, "validate_base_seq breaks for letter N"
     assert validate_base_seq("agcuguauguau", True) == True, "validate_base_seq breaks for lowercase"
-    print("Your validate_base_seq function is working 4/6")
+    print("Your validate_base_seq function is working 4/5")
 
 if __name__ == "__main__":
     # Tests for gc_content
@@ -139,10 +139,4 @@ if __name__ == "__main__":
     assert gc_content("CCC") == 1, "gc_content breaks for C"
     assert gc_content("cccc") == 1, "gc_content breaks for lowercase"
     assert gc_content("AGACAGAC") == 0.5, "gc_content does not calculate correct average"
-    print("Your gc_content function is working 5/6")
-
-# if __name__ == "__main__":
-#     # Tests for oneline_fasta
-#     # assert oneline_fasta() == 
-
-#     print("Your oneline_fasta function is working 6/6")'
+    print("Your gc_content function is working 5/5")
