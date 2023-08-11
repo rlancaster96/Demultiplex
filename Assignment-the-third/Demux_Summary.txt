@@ -1,0 +1,41 @@
+Demultiplexing Summary
+Also see associated files: Summary_Index_Swapping.tsv and Summary_Index_Swapping_Heatmap.png.
+(Note, index swapping heatmap does not contain hits for matching indexes, so there is NO information along the diagonal.)
+
+Results using a cutoff of 30 for input files:
+R1 (read 1): /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz
+R2 (index 1): /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz
+R3 (index 2): /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz
+R4 (read 2): /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz
+Hopped: 330975 (0.14577405410520677%)
+Matching: 226715602 (99.8542259458948%)
+Unknown: 136200158
+Hopped and matching percentages do not include unknown reads.
+Amount of Index Swapping: 0.14577405410520677%
+
+Percent of reads from each sample
+Sample	Read index	Percent
+1	GTAGCGTA	2.546996743523633
+2	CGATCGAT	1.869237918614882
+3	GATCAAGG	2.041410453966022
+4	AACAGCGA	2.808868884109705
+6	TAGCCATG	3.152916224971584
+7	CGGTAATC	1.0555166820852497
+8	CTCTGGAT	10.813125247551335
+10	TACCGGAT	21.91595001035703
+11	CTAGCTCA	5.749190124109765
+14	CACTTCAC	1.136960128575536
+15	GCTACTCT	1.897230698750058
+16	ACGATCAG	2.617167917715694
+17	TATGGCAC	3.3749207961435315
+19	TGTTCCGT	5.050624614710019
+21	GTCCTAAG	2.734762383049403
+22	TCGACAAG	1.1663334930076847
+23	TCTTCGAC	13.27198513669121
+24	ATCATGCG	3.055752201826851
+27	ATCGTGGT	2.086318258767211
+28	TCGAGAGT	3.2852048709025325
+29	TCGGATTC	1.2678086442414316
+31	GATCTTGC	1.1628366008970128
+32	AGAGTCCA	3.353392061654407
+34	AGGATAGC	2.5854899037782144

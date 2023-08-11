@@ -215,6 +215,7 @@ for a in indexcounters:
         percent = ((indexcounters[a])/totalsamples)*100
     percentsample[a] = [percent, indexfiledict[a][0]] #make a dictionary with index=key, value = tuple(percent, sample#)
 
+#write to the summary text output file
 with open("Demux_Summary.txt", "w") as wh:
     wh.write(f"Demultiplexing Summary\n")
     wh.write(f"Also see associated files: Summary_Index_Swapping.tsv and Summary_Index_Swapping_Heatmap.png.\n(Note, index swapping heatmap does not contain hits for matching indexes, so there is NO information along the diagonal.)\n\n")
@@ -227,7 +228,7 @@ with open("Demux_Summary.txt", "w") as wh:
     for a in percentsample:
         wh.write(f"{percentsample[a][1]}\t{a}\t{percentsample[a][0]}\n")
 
-
+#write to the index swapping .tsv file
 with open("Summary_Index_Swapping.tsv", "w") as wh:
     wh.write(f"Pair combination\tFrequency\n")
     for a in paircounters:
@@ -236,6 +237,7 @@ with open("Summary_Index_Swapping.tsv", "w") as wh:
             wh.write(f"{a}\t{paircounters[a]}\n")
 
 #Plot: Generate heatmap figure
+#More documentation available on the matplotlib manual!
 
 import numpy as np
 import matplotlib.pyplot as plt
