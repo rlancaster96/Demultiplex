@@ -9,6 +9,7 @@ Although I do think my cutoff of 30 per base is quite restrictive, I am retainin
 The weakness of my program is that it does not take advantage of the fact that we have 1 nucleotide of uncertainty that is allowable because of how our indexes are designed. I could retain even more data if I had compared indexes and allowed 1 nucleotide of variation between the observed sequence and the known index. I think this would be great to add as an option to pass the algorithm, especially if I am working with a low-quality, low-quantity dataset and want to retain as much as data as possible. 
 
 **Observations of the Data**
+
 Samples 10 (index #TACCGGAT) and 23 (index # TCTTCGAC) had the most representation in final matching reads. 
 
 The index pairs with the most swapping events were these: 
@@ -17,5 +18,9 @@ The index pairs with the most swapping events were these:
 ('TATGGCAC', 'TGTTCCGT'), 58741 events
 ('TGTTCCGT', 'TATGGCAC'), 58569 events 
 ```
+
+
+![Summary_Index_Swapping_Heatmap](https://github.com/rlancaster96/Demultiplex/assets/136844363/92f0472c-03bc-4513-93f6-c73b4cb9615f)
+
 
 I had a total index hopping rate of ~0.15%, which is a typical rate and suggests that the amount of index hopping is normal. It is usually between 0.1-0.2% (source: https://www.illumina.com/techniques/sequencing/ngs-library-prep/multiplexing/index-hopping.html)
